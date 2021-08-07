@@ -1,0 +1,273 @@
+\documentclass[twocolumn]{article}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\usepackage{ifpdf} % check whether running pdflatex or latex
+% Switch for PdfLaTeX or LaTeX
+\ifpdf %%%% pdfLaTeX %%%
+  \usepackage[pdftex]{graphicx}      %%% graphics for pdftex
+  \usepackage[colorlinks=true, linkcolor=brown,
+              citecolor=blue, urlcolor=blue,
+              pdftex,                %%% hyper-references for pdflatex
+              bookmarks=true,        %%% generate bookmarks ...
+             bookmarksnumbered=true,%%% ... with numbers
+  ]{hyperref}
+  \pdfadjustspacing=1    %%% force LaTeX-like character spacing
+\else %%% LaTeX %%%
+  \usepackage[dvips]{graphicx}       %%% graphics for dvips
+  \usepackage[colorlinks=true, linkcolor=brown,
+              citecolor=blue, urlcolor=blue,
+              ps2pdf,                %%% hyper-references for ps2pdf
+              bookmarks=true,        %%% generate bookmarks ...
+              bookmarksnumbered=true,%%% ... with numbers
+  ]{hyperref}
+  % pdfcreator and pdfproducer are set automatically in pdfLaTeX
+  \hypersetup{ pdfcreator  = {LaTeX with hyperref package},
+               pdfproducer = {dvips + ps2pdf} }
+  \let\url\nolinkurl % because dvips cannot break url across lines
+\fi %%% End of condition %%%
+\hypersetup{
+  pdfauthor   = {},
+  pdftitle    = {},
+  pdfsubject  = {},
+  pdfkeywords = {},
+}
+
+\date{}
+
+\begin{document}
+
+\title{Roth 401k vs.\ 401k}
+\author{Wenguang Wang}
+\maketitle
+
+\abstract{
+  This article compares the final return of Roth 401k and 401k based on tax law. Assume the investor has enough money to reach the Roth 401k limit, this article recommends to invest in Roth 401k for most people. A detailed formula is deduced in this article. A read-only Google Sheet at \url{http://tinyurl.com/401kroth} shows the same formula. Feel free to make a copy of the Google Sheet and change the numbers to get your own conclusion that fits your individual financial situation.
+}
+
+\section{Introduction}
+This document compares the the final return between Roth 401k and 401k. The short conclusion is that in most practical cases, Roth 401k is better.
+
+As a simplified formula, assume money is withdrawn after no other source of income, therefore, the income tax rate at the time of withdraw equals to today's capital gain tax rate. If Equation~\ref{eqn:simple-final} is true, Roth 401k works better than 401k.
+
+\begin{equation}
+  \frac{1}{T_{fut}} - \frac{1}{T_{now}} < 1 - \frac{1}{R}
+\end{equation}
+
+$T_{now}$ is the current income tax rate that you pay before you can invest in Roth 401k. $T_{fut}$ is the future income tax rate that you pay when withdraw from regular 401k. $R$ is the total return on investment when you retire and sell all 401k. If the assumption of $T_{fut} = T_{now}$ is not true, the actual formula was shown in Equation~\ref{eqn:final2} at the end of the article.
+
+A hidden assumption of this article is that the investor must reach the Roth 401k annual limit. This means at least \$19,500 after-tax money needs to be saved for retirement as of 2020.
+
+Let's use an example to show the meaning of this formula. Assume today's income tax rate is 43\%, and the tax rate and capital gain rate at the withdraw time is 33\%, and the total return is 5 (\$1 invested becomes \$5 in the end. If the annual return is 8\%, the total return is 5.03 after 21 years). Now the formula becomes:
+
+\begin{equation}
+  \frac{1}{0.33} - \frac{1}{0.43} < 1 - \frac{1}{5}
+\end{equation}
+
+This becomes Equation~\ref{eqn:example} and is true:
+
+\begin{equation}
+  0.70 < 0.80 \label{eqn:example}
+\end{equation}
+
+Therefore, Roth 401k works better than 401k. You can make a copy of the Google Sheet at \url{http://tinyurl.com/401kroth} and play with the numbers to make the formula fit your specific case.
+
+If you believe the future tax rate will drop more, then 401k works better. You need to make your own speculation about the future tax rate. Looking at history, the current income tax rate is not high as of 2020, and therefore, we may not see much decrease of the tax rate drop when you withdraw money from the retirement account in the future.
+
+The rest of the article deduces the above formula in a step by step manner.
+
+\section{Notions}
+
+The following notions are used:
+\begin{itemize}
+  \item $R$: the total return on investment when you retire and sell all 401k.
+  \item $T_{now}$: the current income tax rate that you pay before you can
+    invest in Roth 401k.
+  \item $T_{fut}$: the future income tax rate that you pay when withdraw from
+    regular 401k.
+  \item $T_{cap}$: the long term capital gain tax rate that you pay when sell
+    your regular investment that is outside of regular 401k or Roth 401k.
+    \item $T_{fut}^{\prime}$: see definition in Equation~\ref{eqn:futp} and used to
+    calculate the amount of tax to be paid with tax rate $T_{fut}$.
+    \item $T_{cap}^{\prime}$: see definition in Equation~\ref{eqn:capp} and used to
+    calculate the amount of tax to be paid with tax rate $T_{cap}$.
+  \item $C$: the cap of 401k or Roth 401k, which is \$18,000 in 2020.
+  \item $M_{0}$: the initial amount of money for investing into either Roth 401k or
+  regular 401k.
+  \item $I_{reg}$: the initial amount of after-tax money invested into the
+  regular investment amount, after the regular 401k is filled to the cap.
+  \item $M_{reg}$: the total amount of after-tax money of the
+  regular investment amount after liquidation
+  \item $M_{401konly}$: the total amount of after-tax money after they are
+  withdrawn from the regular 401k.
+  \item $M_{Roth}$: the total investment return of using Roth 401k.
+  \item $M_{401k}$: the total investment return of using regular 401k plus
+    regular investment, so $M_{401k} = M_{reg} + M_{401konly}$.
+\end{itemize}
+
+\section{Initial Pre-tax Investment}
+
+Assume initially you have enough pre-tax money that after paying tax, can just fill the
+limit of Roth 401k. Therefore we have:
+
+\begin{equation}
+  M_{0} - M_{0} \cdot T_{now} = C \label{eqn:m0}
+\end{equation}
+
+It is easy to calculate $M_{0}$ from Equation~\ref{eqn:m1}:
+
+\begin{equation}
+  M_{0} = \frac{C}{1 - T_{now}} \label{eqn:m1}
+\end{equation}
+
+\section{Roth 401k}
+
+If Roth 401k is used, the initial money is $C$ and it grows tax-free by $R$, so the final
+amount is:
+
+\begin{equation}
+  M_{Roth}= C \cdot R \label{eqn:roth2}
+\end{equation}
+
+\section{Regular 401k}
+
+The same amount $M_{0}$ will be invested, where $C$ pre-tax dollars will be put
+into the regular 401k, and the rest put into a regular investment account (not
+the Roth 401k nor the regular 401k) where everything grows with tax deferred. At
+the end, the 401k account will pay the future income tax of $T_{fut}$, and the
+regular investment will pay a future capital gain tax of $T_{cap}$.
+
+The initial amount of money in 401k is $C$, and it becomes $C \cdot R$ at
+retirement time. All this amount are pre-tax and must may the tax rate of
+$T_{fut}$. So the money left after paying the
+future income tax is:
+
+\begin{equation}
+  C \cdot R \cdot (1 - T_{fut}) \label{eqn:401konly}
+\end{equation}
+
+Define $T_{fut}^{\prime}$ as in Equation~\ref{eqn:futp}:
+
+\begin{equation}
+  T_{fut}^{\prime} = R \cdot (1 - T_{fut}) \label{eqn:futp}
+\end{equation}
+
+Then Equation~\ref{eqn:401konly} can be simplified to:
+
+\begin{equation}
+  C \cdot T_{fut}^{\prime} \label{eqn:401konly2}
+\end{equation}
+
+After investing in 401k, there are $M_{0} - C$ pre-tax money left. After
+expanding $M_{0}$ based on Equation~\ref{eqn:m0}, we get:
+
+\begin{equation}
+  M_{0} - C = \frac{C}{1 - T_{now}} - C = \frac{C \cdot T_{now}}{1 - T_{now}} \label{eqn:m4}
+\end{equation}
+
+This amount needs to pay tax at rate $T_{now}$ so it needs to multiple
+$1-T_{now}$ and get the after-tax amount for the regular investment account:
+
+\begin{equation}
+  I_{reg} = \frac{C \cdot T_{now}}{1 - T_{now}} (1 - T_{now}) = C \cdot T_{now}
+\end{equation}
+
+This money will grow by $R$ times, where capital gain is:
+
+\begin{equation}
+  C \cdot T_{now} \cdot (R - 1) \label{eqn:reg}
+\end{equation}
+
+After paying a capital gain tax $T_{cap}$ at the end, the money left is:
+
+\begin{equation}
+  C \cdot T_{now} \cdot (R - (R - 1) \cdot T_{cap}) \label{eqn:reg}
+\end{equation}
+
+Define $T_{cap}^{\prime}$ as in the equation below:
+
+\begin{equation}
+  T_{cap}^{\prime} = R - (R - 1) \cdot T_{cap} \label{eqn:capp}
+\end{equation}
+
+Then Equation~\ref{eqn:reg} can be simplified to below, which is the after tax amount in the regular investment account:
+
+\begin{equation}
+  C \cdot T_{now} \cdot T_{cap}^{\prime} \label{eqn:reg2}
+\end{equation}
+
+Therefore, the total money left using 401k and regular investment account will
+be the sum of Equation~\ref{eqn:401konly2} and \ref{eqn:reg2}:
+
+\begin{equation}
+  M_{401k} = C \cdot T_{fut}^{\prime} + C \cdot T_{now} \cdot T_{cap}^{\prime} \label{eqn:401k}
+\end{equation}
+
+\section{Roth 401k vs.\ 401k}
+
+Now we can compare $M_{Roth}$ (in Equation~\ref{eqn:roth2}) and $M_{401k}$ (in
+Equation~\ref{eqn:401k}) to see which one is better. If Roth
+401k is better, the following equation will holds:
+
+\begin{equation}
+  M_{Roth} - M_{401k} > 0
+\end{equation}
+
+This can be written as:
+
+\begin{equation}
+  C \cdot R - (C \cdot T_{fut}^{\prime} + C \cdot T_{now} \cdot T_{cap}^{\prime}) > 0 \label{eqn:cmp}
+\end{equation}
+
+Since $C$ does not change the sign of the expression, it is removed:
+
+\begin{equation}
+  R - T_{fut}^{\prime} - T_{now} \cdot T_{cap}^{\prime} > 0 \label{eqn:cmp2}
+\end{equation}
+
+Replace $T_{fut}^{\prime}$ based on Equation~\ref{eqn:futp}, now we get:
+
+\begin{equation}
+  T_{fut} \cdot R - T_{now} (R - (R - 1) \cdot T_{cap}) > 0
+\end{equation}
+
+Which can be rewritten to:
+
+\begin{equation}
+  T_{fut} R - T_{now} R + T_{now} T_{cap} (R - 1) > 0
+\end{equation}
+
+And then:
+
+\begin{equation}
+  (T_{fut} - T_{now} + T_{now} T_{cap})R - T_{now} T_{cap} > 0
+\end{equation}
+
+\begin{equation}
+  (T_{fut} - T_{now} + T_{now} T_{cap})R > T_{now} T_{cap} \label{eqn:final}
+\end{equation}
+
+To simplify Equation~\ref{eqn:final}, we divide $R T_{now} T_{cap}$ and get:
+
+\begin{equation}
+  \frac{T_{fut} - T_{now} + T_{now}T_{cap}}{T_{now} T_{cap}} > \frac{1}{R}
+\end{equation}
+
+\begin{equation}
+  \frac{T_{fut}}{T_{now}T_{cap}} - \frac{1}{T_{cap}} + 1 > \frac{1}{R}
+\end{equation}
+
+\begin{equation}
+  \frac{1}{T_{cap}} - \frac{T_{fut}}{T_{now}T_{cap}} < 1 - \frac{1}{R}  \label{eqn:final2}
+\end{equation}
+
+
+If we assume $T_{cap} = T_{fut}$, Equation~\ref{eqn:final2} can be rewritten as:
+
+\begin{equation}
+  \frac{1}{T_{fut}} - \frac{1}{T_{now}} < 1 - \frac{1}{R} \label{eqn:final3}
+\end{equation}
+
+When the simplified Equation~\ref{eqn:final3} is true, Roth 401k works better than 401k.
+
+\end{document}
