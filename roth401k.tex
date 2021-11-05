@@ -42,7 +42,9 @@
 \maketitle
 
 \abstract{
-  This article compares the final return of Roth 401k and 401k based on tax law. Assume the investor has enough money to reach the Roth 401k limit, this article recommends to invest in Roth 401k for most people. A detailed formula is deduced in this article. A read-only Google Sheet at \url{http://tinyurl.com/401kroth} shows the same formula. Feel free to make a copy of the Google Sheet and change the numbers to get your own conclusion that fits your individual financial situation.
+  This article compares the final return of Roth 401k and 401k based on tax law. Assume the investor has enough money to reach the Roth 401k limit, this article recommends to invest in Roth 401k for most people. Moreover, if you already have a 401k from former employer or IRA, a Roth conversion to move the whole amount to a Roth IRA and pay income tax on the converted amount now is recommended, as long as the extra amount does not move your gross income to the next tax bucket. A detailed formula is deduced in this article. A read-only Google Sheet at \url{http://tinyurl.com/401kroth} shows the same formula. Feel free to make a copy of the Google Sheet and change the numbers to get your own conclusion that fits your individual financial situation.
+
+  This article can be found by \url{http://tinyurl.com/401kroth-pdf}.
 }
 
 \section{Introduction}
@@ -73,6 +75,8 @@ This becomes Equation~\ref{eqn:example} and is true:
 Therefore, Roth 401k works better than 401k. You can make a copy of the Google Sheet at \url{http://tinyurl.com/401kroth} and play with the numbers to make the formula fit your specific case.
 
 If you believe the future tax rate will drop more, then 401k works better. You need to make your own speculation about the future tax rate. Looking at history, the current income tax rate is not high as of 2020, and therefore, we may not see much decrease of the tax rate drop when you withdraw money from the retirement account in the future.
+
+As discussed in Section~\ref{sec:extra-money}, the Roth conversion becomes the same problem so it is recommended to convert all your IRA or earlier 401k to Roth IRA and pay tax out of pocket now as long as this doesn't move your gross income to the next tax bucket level.
 
 The rest of the article deduces the above formula in a step by step manner.
 
@@ -105,7 +109,8 @@ The following notions are used:
     regular investment, so $M_{401k} = M_{reg} + M_{401konly}$.
 \end{itemize}
 
-\section{Initial Pre-tax Investment}
+\section{401k or Roth 401k}
+\subsection{Initial Pre-tax Investment}
 
 Assume initially you have enough pre-tax money that after paying tax, can just fill the
 limit of Roth 401k. Therefore we have:
@@ -120,7 +125,7 @@ It is easy to calculate $M_{0}$ from Equation~\ref{eqn:m1}:
   M_{0} = \frac{C}{1 - T_{now}} \label{eqn:m1}
 \end{equation}
 
-\section{Roth 401k}
+\subsection{Roth 401k}
 
 If Roth 401k is used, the initial money is $C$ and it grows tax-free by $R$, so the final
 amount is:
@@ -129,7 +134,7 @@ amount is:
   M_{Roth}= C \cdot R \label{eqn:roth2}
 \end{equation}
 
-\section{Regular 401k}
+\subsection{Regular 401k}
 
 The same amount $M_{0}$ will be invested, where $C$ pre-tax dollars will be put
 into the regular 401k, and the rest put into a regular investment account (not
@@ -169,13 +174,13 @@ This amount needs to pay tax at rate $T_{now}$ so it needs to multiple
 $1-T_{now}$ and get the after-tax amount for the regular investment account:
 
 \begin{equation}
-  I_{reg} = \frac{C \cdot T_{now}}{1 - T_{now}} (1 - T_{now}) = C \cdot T_{now}
+  I_{reg} = \frac{C \cdot T_{now}}{1 - T_{now}} (1 - T_{now}) = C \cdot T_{now} \label{eqn:reg0}
 \end{equation}
 
 This money will grow by $R$ times, where capital gain is:
 
 \begin{equation}
-  C \cdot T_{now} \cdot (R - 1) \label{eqn:reg}
+  C \cdot T_{now} \cdot (R - 1) \label{eqn:reg-before-gain}
 \end{equation}
 
 After paying a capital gain tax $T_{cap}$ at the end, the money left is:
@@ -203,7 +208,7 @@ be the sum of Equation~\ref{eqn:401konly2} and \ref{eqn:reg2}:
   M_{401k} = C \cdot T_{fut}^{\prime} + C \cdot T_{now} \cdot T_{cap}^{\prime} \label{eqn:401k}
 \end{equation}
 
-\section{Roth 401k vs.\ 401k}
+\subsection{Roth 401k vs.\ 401k}\label{sec:cmp}
 
 Now we can compare $M_{Roth}$ (in Equation~\ref{eqn:roth2}) and $M_{401k}$ (in
 Equation~\ref{eqn:401k}) to see which one is better. If Roth
@@ -269,5 +274,45 @@ If we assume $T_{cap} = T_{fut}$, Equation~\ref{eqn:final2} can be rewritten as:
 \end{equation}
 
 When the simplified Equation~\ref{eqn:final3} is true, Roth 401k works better than 401k.
+
+\section{Roth Conversion With Extra Money}\label{sec:extra-money}
+
+Now let's consider a different problem. Assume you already have 401k, and now want to decide whether it should be converted to 401k after paying income tax.
+
+Assume there are $C$ dollars in the 401k. If this is converted to Roth 401k, $C$ is considered taxiable income. Therefore, $C \cdot T_{now}$ tax dollar is needed. In summary:
+
+\begin{itemize}
+\item Without conversion: 401k has $C$; regular account has $C \cdot T_{now}$.
+\item With roth conversion: Roth 401k has $C$; regular account has no money.
+\end{itemize}
+
+Compare this with Equation~\ref{eqn:roth2} and Equation~\ref{eqn:reg0}, you can find they are exactly the same. Therefore, the same conclusion as in the end of Section~\ref{sec:cmp} applies: your current 401k should be converted to Roth 401k.
+
+Please note that such conversion will increase your taxable income on that year. Therefore, please watch your gross income and make such such conversion won't bump you into the next tax bucket!
+
+\section{Roth Conversion Without Extra Money}
+
+Section~\ref{sec:extra-money} assumes you have extra money to pay tax when converting to Roth 401k. This is the recommended method because it doesn't reduce your money in the account with tax benefit. However, if you don't have extra money and must pay tax using money withdrawn from 401k, then we have:
+
+\begin{itemize}
+\item Without conversion: 401k has $C$.
+\item With Roth conversion: Roth 401k has $C \cdot (1 - T_{now})$.
+\end{itemize}
+
+Now the comparison is quite simple since there is no regular investment account. In the future, after money grows by $R$:
+
+\begin{itemize}
+\item Without conversion: 401k has $C \cdot R$.
+\item With Roth conversion: Roth 401k has $C \cdot R \cdot (1 - T_{now})$.
+\end{itemize}
+
+Now withdraw money from 401k and Roth 401k:
+
+\begin{itemize}
+\item Without conversion: 401k after withdraw pays $T_{now}$ and you have $C \cdot R \cdot (1 - T_{fut})$ left.
+\item With Roth conversion: Roth 401k still has the same amount $C \cdot R \cdot (1 - T_{now})$.
+\end{itemize}
+
+Therefore, who is the winner will be soley depend on whether the tax rate in the future. If the future tax rate is lower, 401k is better and no Roth conversion should have been done; if the future tax rate is higher, 401k is better and Roth conversion is better.
 
 \end{document}
